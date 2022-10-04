@@ -9,23 +9,22 @@ const int MAX = 100;
 // ----------------------------------------------------------------------------------------------------------------------- //
 
 // memoization
-int dp[1001][1001];
-int recur(int gold[][MAX], int x, int y, int m, int n)
-{
-	if (x < 0 || y < 0 || x >= m || y >= n)
-		return 0;
-
-	return gold[x][y] + max({recur(gold, x + 1, y + 1, m, n), recur(gold, x, y + 1, m, n), recur(gold, x - 1, y + 1, m, n)});
-}
-int getMaxGold(int gold[][MAX], int m, int n)
-{
-	int ans = INT_MIN;
-	for (int i = 0; i < m; i++)
-	{
-		ans = max(ans, recur(gold, i, 0, m, n));
-	}
-	return ans;
-}
+int t[50][50];
+   int gold(vector<vector<int>> &M, int i,int j,int n,int m){
+       if(min(i,j)<0 || i>=n || j>=m)return 0;
+       if(t[i][j]!=-1)return t[i][j];
+       return t[i][j] = M[i][j] + max({gold(M,i-1,j+1,n,m), gold(M,i+1,j+1,n,m), gold(M,i,j+1,n,m)});
+   }
+    int maxGold(int n, int m, vector<vector<int>> M)
+    {
+        int ans=0;
+        
+       for(int i=0;i<n;i++){
+           memset(t,-1,sizeof(t));
+          ans=max(ans, gold(M,i,0,n,m));
+       }
+       return ans;
+    }
 
 // ----------------------------------------------------------------------------------------------------------------------- //
 
